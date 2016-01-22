@@ -41,22 +41,27 @@ public class AddAdvertisementServlet extends HttpServlet {
 
 
 
-        String adTitle = req.getParameter("title[]");
+        String[] adTitle = req.getParameterValues("title[]");
         System.err.println(adTitle);
-        Float adPrice = Float.parseFloat(req.getParameter("price[]"));
+        String[] adPrice = req.getParameterValues("price[]");
 
 
+        for(int i=0;i<adTitle.length;i++){
 
+            float f = Float.parseFloat(adPrice[i]);
 
-        if (user != null) {
-            advertisement = new Advertisement(adTitle, adPrice, user.getUserId(), user.getEmail());
-        } else {
-            advertisement = new Advertisement(adTitle, adPrice);
+            if (user != null) {
+                advertisement = new Advertisement(adTitle[i], f, user.getUserId(), user.getEmail());
+            } else {
+                advertisement = new Advertisement(adTitle[i], f);
+            }
+
+            // Use Objectify to save the greeting and now() is used to make the call synchronously as we
+            // will immediately get a new page using redirect and we want the data to be present.
+            ObjectifyService.ofy().save().entity(advertisement).now();
+
         }
 
-        // Use Objectify to save the greeting and now() is used to make the call synchronously as we
-        // will immediately get a new page using redirect and we want the data to be present.
-        ObjectifyService.ofy().save().entity(advertisement).now();
 
 
         resp.sendRedirect("/index.jsp");
