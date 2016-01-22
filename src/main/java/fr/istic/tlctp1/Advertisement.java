@@ -13,7 +13,7 @@ import java.util.Date;
 public class Advertisement {
     public Date date;
     public String title;
-    public Float price;
+    public Double price;
     @Id
     public Long id;
 
@@ -31,7 +31,7 @@ public class Advertisement {
     /**
      * A connivence constructor
      **/
-    public Advertisement(String title, float price) {
+    public Advertisement(String title, Double price) {
         this();
         if( title != null ) {
             this.title = title;
@@ -43,10 +43,11 @@ public class Advertisement {
     /**
      * Takes all important fields
      **/
-    public Advertisement(String book, float price, String author_id, String email) {
+    public Advertisement(String book, Double price, String author_id, String email) {
         this(book, price);
         this.author_email = email;
         this.author_id = author_id;
     }
+
 
 }

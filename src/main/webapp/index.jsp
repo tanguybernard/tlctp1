@@ -1,9 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.google.appengine.api.datastore.*" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
 
 <%@ page import="fr.istic.tlctp1.Advertisement" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.text.SimpleDateFormat" %>
+
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
     <head>
       <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
@@ -15,36 +18,25 @@
                 <input type="text" name="searchTitle"/> <input type="submit"/>
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
+            <ul>
             <%
                String searchTitle = request.getParameter("searchTitle");
-
-               // Get the Datastore Service
-               DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-               Query q = new Query("Advertisement");
-                if(searchTitle!= null){
-                       Query.Filter filterTitle =
-                               new Query.FilterPredicate("title",
-                                       Query.FilterOperator.EQUAL ,
-                                       searchTitle);
-                        // Use class Query to assemble a query
-                        q = q.setFilter(filterTitle);
+                List<Advertisement> advertisements = null;
+                if(searchTitle == null){
+                    advertisements = ObjectifyService.ofy().load().type(Advertisement.class).list();
+                }else{
+                    advertisements = ObjectifyService.ofy().load().type(Advertisement.class).filter("title", searchTitle).list();
                 }
-
-
-                PreparedQuery pq = datastore.prepare(q);
-                for (Entity result : pq.asIterable()) {
-                   Date date = (Date) result.getProperty("date");
-                   String lastName = (String) result.getProperty("title");
-                   Float price = (Float) result.getProperty("price");
-                   %>
-                          <span>${ date }+ " - " + ${title} + "  "+${price} %></span>
-
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                for(Advertisement advertisement :advertisements){
+                    String msg = formatter.format(advertisement.date)+ " - "+advertisement.title +" "+advertisement.price;
+                    pageContext.setAttribute("row", msg);
+                    %>
+                    <li>${fn:escapeXml(row)}</li>
                     <%
                 }
-
-
-
             %>
+            </ul>
         </div>
     </body>
 </html>

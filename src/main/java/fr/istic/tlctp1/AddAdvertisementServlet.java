@@ -43,7 +43,7 @@ public class AddAdvertisementServlet extends HttpServlet {
 
         String adTitle = req.getParameter("title[]");
         System.err.println(adTitle);
-        Float adPrice = Float.parseFloat(req.getParameter("price[]"));
+        Double adPrice = Double.parseDouble(req.getParameter("price[]"));
 
 
 
