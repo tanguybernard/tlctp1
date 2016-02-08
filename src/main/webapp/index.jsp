@@ -1,10 +1,12 @@
 
+<%@page import="com.google.apphosting.datastore.DatastoreV4.Filter"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
 <%@ page import="com.googlecode.objectify.cmd.Query" %>
 
 <%@ page import="fr.istic.tlctp1.Advertisement" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Date" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -53,15 +55,18 @@
                 	</span>
                 	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
                 </span><br/>
+                 
                  <span> Date 
                 	<span>
                 		Entre 
                 	</span>
-                	<input type="text" id="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}></input>
+
+                	<input type="text" id="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
                 	<span>
                 		et 
                 	</span>
                 	<input id="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+
                 </span>
  
                 
@@ -88,12 +93,16 @@
                 if(prixMin != null && !prixMin.equals("") && prixMax != null && !prixMax.equals("")){
                 	query = query.filter("price >", Double.parseDouble(prixMin)).filter("price <", Double.parseDouble(prixMax));
                 }
-                //filtre sur la date
-                if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
-                	query = query.filter("date >", dateMin).filter("date <", dateMax);
-                }
                 
                 List<Advertisement> advertisements = query.list();
+                
+                //filtre sur la date
+                if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
+                	//impossible car on ne peut faire qu'une seule inégalité par propriété par requête  
+                	//query = query.filter("date >", dateMin).filter("date <", dateMax);
+                	System.out.println(dateMin);
+                }
+                
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 for(Advertisement advertisement :advertisements){
                     String msg = formatter.format(advertisement.date)+ " - "+advertisement.title +" "+advertisement.price;
