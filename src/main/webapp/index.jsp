@@ -14,6 +14,7 @@
 
 <html>
     <head>
+        <title>Tableau de publicités</title>
         <!--link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/-->
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -28,6 +29,16 @@
     </head>
 
     <body>
+
+    <div class = "page-header">
+
+        <h1 align="center">
+            Tableau de publicités
+        </h1>
+
+    </div>
+
+
         <div>
 
             <form method="POST">
@@ -44,7 +55,7 @@
                pageContext.setAttribute("dateMin", dateMin);
                pageContext.setAttribute("dateMax", dateMax);
              %>
-                <input type="text" name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit"/><br/>
+                <input type="text"  name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit" class="btn btn-default" /><br/>
                 <span> Prix 
                 	<span>
                 		Entre 
@@ -130,6 +141,7 @@
                     pageContext.setAttribute("myDate",formatter.format(advertisement.date));
                     pageContext.setAttribute("myTitle",advertisement.title);
                     pageContext.setAttribute("myPrice",advertisement.price);
+                    pageContext.setAttribute("myId",advertisement.id);
                     %>
                 <!--li class="list-group-item" ></li-->
 
@@ -137,8 +149,10 @@
                     <td >${fn:escapeXml(myDate)}</td>
                     <td >${fn:escapeXml(myTitle)}</td>
                     <td >${fn:escapeXml(myPrice)}</td>
+                    <td><a href="#" class="confirm-delete btn mini red-stripe" role="button" data-title="kitty" data-id="2">Delete</a></td>
+                    <td><button onclick="myFunction(${fn:escapeXml(myId)})">Click me</button><td>
 
-                    </tr>
+                </tr>
                     </tbody>
 
 
@@ -158,6 +172,17 @@
                     dateFormat: 'dd/mm/yy'
                 });
             });
+
+
+            function myFunction(idlement) {
+                console.log(idlement);
+                $.get("delete", { id:idlement }, function(data, status){
+                    alert("Data: " + data + "\nStatus: " + status);
+                });
+            }
+
+
+
 
         </script>
 
