@@ -12,8 +12,16 @@
 <html>
     <head>
         <!--link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/-->
+
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
 
 
     </head>
@@ -39,27 +47,36 @@
                 	<span>
                 		Entre 
                 	</span>
-                	<input type="number" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
+                	<input type="number" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
                 	<span>
                 		et 
                 	</span>
-                	<input type="number" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
+                	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
                 </span><br/>
                  <span> Date 
                 	<span>
                 		Entre 
                 	</span>
-                	<input type="date" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
+                	<input type="text" id="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}></input>
                 	<span>
                 		et 
                 	</span>
-                	<input type="date" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+                	<input id="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
                 </span>
  
                 
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
-            <ul class="list-group">
+            <table id="example" class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Prix</th>
+                </tr>
+                </thead>
+                <tbody class="searchable">
+                <tr>
             <%
                 Query<Advertisement> query =  ObjectifyService.ofy().load().type(Advertisement.class);
                 
@@ -82,13 +99,32 @@
                     String msg = formatter.format(advertisement.date)+ " - "+advertisement.title +" "+advertisement.price;
                     pageContext.setAttribute("row", msg);
                     pageContext.setAttribute("myDate",formatter.format(advertisement.date));
+                    pageContext.setAttribute("myTitle",advertisement.title);
+                    pageContext.setAttribute("myPrice",advertisement.price);
                     %>
                 <!--li class="list-group-item" ></li-->
-                    <li class="list-group-item" >${fn:escapeXml(row)}</li>
+
+
+                    <td >${fn:escapeXml(myDate)}</td>
+                    <td >${fn:escapeXml(myTitle)}</td>
+                    <td >${fn:escapeXml(myPrice)}</td>
+
+                    </tr>
+                    </tbody>
+
+
+
                     <%
                 }
             %>
-            </ul>
+            </table>
         </div>
+
+        <script>
+            $(function() {
+                $( "#datepicker" ).datepicker();
+            });
+        </script>
+
     </body>
 </html>
