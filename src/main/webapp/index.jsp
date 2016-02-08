@@ -153,8 +153,11 @@
                     <td >${fn:escapeXml(myDate)}</td>
                     <td >${fn:escapeXml(myTitle)}</td>
                     <td >${fn:escapeXml(myPrice)}</td>
-                    <td><a href="#" class="confirm-delete btn mini red-stripe" role="button" data-title="kitty" data-id="2">Delete</a></td>
-                    <td><button onclick="myFunction(${fn:escapeXml(myId)})">Click me</button><td>
+                    <td>
+                        <button type="button" class="btn btn-default" onclick="deleteAd(${fn:escapeXml(myId)})">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    <td>
 
                 </tr>
                     </tbody>
@@ -176,13 +179,12 @@
             });
 
 
-            function myFunction(idlement) {
-                console.log(idlement);
+            function deleteAd(idlement) {
                 $.ajax({
                     url: "delete" + '?' + $.param({"ide": idlement}),
                     type:"DELETE",
                     success: function(response){
-                        alert("Reponse: " + response);
+                        location.reload();
                     }
                 })
 
