@@ -1,8 +1,8 @@
 package fr.istic.tlctp1;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 import java.util.Date;
 
@@ -11,8 +11,11 @@ import java.util.Date;
  */
 @Entity
 public class Advertisement {
-    public Date date;
+	 @Index
+	public Date date;
+    @Index
     public String title;
+    @Index
     public Double price;
     @Id
     public Long id;
