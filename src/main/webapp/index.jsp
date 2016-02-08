@@ -6,7 +6,8 @@
 
 <%@ page import="fr.istic.tlctp1.Advertisement" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -24,9 +25,6 @@
 
         <script src="https://jqueryui.com/resources/demos/datepicker/datepicker-fr.js"></script>
 
-
-
-
     </head>
 
     <body>
@@ -34,6 +32,7 @@
 
             <form method="POST">
              <%
+             //récupération des valeurs
                String prixMin = request.getParameter("prixMin");
                String prixMax = request.getParameter("prixMax");
                String dateMin = request.getParameter("dateMin");
@@ -62,11 +61,11 @@
                 		Entre 
                 	</span>
 
-                	<input type="text" id="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
+                	<input type="text" class="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
                 	<span>
                 		et 
                 	</span>
-                	<input id="datepicker2" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+                	<input class="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
 
                 </span>
  
@@ -92,19 +91,39 @@
                 }
                 //filtre sur le prix
                 if(prixMin != null && !prixMin.equals("") && prixMax != null && !prixMax.equals("")){
-                	query = query.filter("price >", Double.parseDouble(prixMin)).filter("price <", Double.parseDouble(prixMax));
+                	query = query.filter("price >=", Double.parseDouble(prixMin)).filter("price <=", Double.parseDouble(prixMax));
                 }
                 
                 List<Advertisement> advertisements = query.list();
-                
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 //filtre sur la date
                 if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
                 	//impossible car on ne peut faire qu'une seule inégalité par propriété par requête  
                 	//query = query.filter("date >", dateMin).filter("date <", dateMax);
-                	System.out.println(dateMin);
+                	
+                	//on trie les pubs en fonction de la date
+                	//création de deux calendars pour dateMin et dateMax
+                	Calendar calendarMin = Calendar.getInstance();
+                	calendarMin.setTime(formatter.parse(dateMin));
+                	
+                	//on met la date de fin à la dernière seconde de la journée
+                	Calendar calendarMax = Calendar.getInstance();
+                	calendarMax.setTime(formatter.parse(dateMax));
+                	calendarMax.set(Calendar.HOUR_OF_DAY, 23);
+                	calendarMax.set(Calendar.MINUTE, 59);
+                	calendarMax.set(Calendar.SECOND, 59);
+                	
+                	Iterator<Advertisement> it = advertisements.iterator();
+                	//parcours des publicités
+                	while(it.hasNext()){
+                		Advertisement current = it.next();
+                		//on supprime les publicités si elle ne sont pas dans l'intervalle
+                		if(!(current.date.after(calendarMin.getTime()) && current.date.before(calendarMax.getTime()))){
+                			it.remove();
+                		}
+                	}
                 }
                 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 for(Advertisement advertisement :advertisements){
                     String msg = formatter.format(advertisement.date)+ " - "+advertisement.title +" "+advertisement.price;
                     pageContext.setAttribute("row", msg);
@@ -133,15 +152,14 @@
 
         <script type="text/javascript">
             $(function() {
+
                 $.datepicker.setDefaults( $.datepicker.regional[ "fr" ] );
-                $( "#datepicker" ).datepicker({
+                $( ".datepicker" ).datepicker({
                     dateFormat: 'dd/mm/yy'
                 });
-                $('#datepicker2').datepicker();
             });
 
         </script>
-
 
     </body>
 </html>
