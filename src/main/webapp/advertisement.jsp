@@ -13,6 +13,11 @@
 <html>
 <head>
     <link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
     <script src="http://code.jquery.com/jquery-latest.min.js"
             type="text/javascript"></script>
     <script type="text/javascript" src="js/addAdvertisement.js"></script>
@@ -47,10 +52,11 @@
 
 
 <form action="/add" method="post">
+    <button type='button' class="add_field_button">Add More Fields</button>
     <div class="input_fields_wrap">
-        <button type='button' class="add_field_button">Add More Fields</button>
-        <div><input type="text" name="title[]"></div>
-        <div><input type="number" name="price[]" min="1"></div>
+
+        <div style="display: inline-block"><input type="text" name="title[]"></div>
+        <div style="display: inline-block"><input type="number" name="price[]" min="1"></div>
     </div>
     <div><input type="submit" value="Post Add"/></div>
 
