@@ -6,7 +6,8 @@
 
 <%@ page import="fr.istic.tlctp1.Advertisement" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Calendar" %>
 <%@ page import="java.text.SimpleDateFormat" %>
 
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -95,15 +96,26 @@
                 }
                 
                 List<Advertisement> advertisements = query.list();
-                
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 //filtre sur la date
                 if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
                 	//impossible car on ne peut faire qu'une seule inégalité par propriété par requête  
                 	//query = query.filter("date >", dateMin).filter("date <", dateMax);
-                	System.out.println(dateMin);
+                	Calendar calendarMin = Calendar.getInstance();
+                	calendarMin.setTime(formatter.parse(dateMin));
+                	
+                	Calendar calendarMax = Calendar.getInstance();
+                	calendarMax.setTime(formatter.parse(dateMax));
+                	
+                	Iterator<Advertisement> it = advertisements.iterator();
+                	while(it.hasNext()){
+                		Advertisement current = it.next();
+                		if(!(current.date.after(calendarMin.getTime()) && current.date.before(calendarMax.getTime()))){
+                			it.remove();
+                		}
+                	}
                 }
                 
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 for(Advertisement advertisement :advertisements){
                     String msg = formatter.format(advertisement.date)+ " - "+advertisement.title +" "+advertisement.price;
                     pageContext.setAttribute("row", msg);
