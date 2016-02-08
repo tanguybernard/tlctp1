@@ -17,10 +17,20 @@
         <servlet-name>add</servlet-name>
         <servlet-class>fr.istic.tlctp1.AddAdvertisementServlet</servlet-class>
     </servlet>
+    
+      <servlet>
+        <servlet-name>delete</servlet-name>
+        <servlet-class>fr.istic.tlctp1.DeleteAdvertisementServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>add</servlet-name>
         <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+    
+     <servlet-mapping>
+        <servlet-name>delete</servlet-name>
+        <url-pattern>/delete</url-pattern>
     </servlet-mapping>
 
 

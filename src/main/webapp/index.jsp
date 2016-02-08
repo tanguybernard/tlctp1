@@ -1,4 +1,3 @@
-
 <%@page import="com.google.apphosting.datastore.DatastoreV4.Filter"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.googlecode.objectify.ObjectifyService" %>
@@ -14,8 +13,11 @@
 
 <html>
     <head>
+
         <title>Tableau de publicités</title>
-        <!--link type="text/css" rel="stylesheet" href="/stylesheets/main.css"/-->
+
+        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.10.2.js"></script>
@@ -41,46 +43,48 @@
 
         <div>
 
-            <form method="POST">
-             <%
-             //récupération des valeurs
-               String prixMin = request.getParameter("prixMin");
-               String prixMax = request.getParameter("prixMax");
-               String dateMin = request.getParameter("dateMin");
-               String dateMax = request.getParameter("dateMax");
-               String searchTitle = request.getParameter("searchTitle");
-               pageContext.setAttribute("searchTitle", searchTitle);
-               pageContext.setAttribute("prixMin", prixMin);
-               pageContext.setAttribute("prixMax", prixMax);
-               pageContext.setAttribute("dateMin", dateMin);
-               pageContext.setAttribute("dateMax", dateMax);
-             %>
-                <input type="text"  name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit" class="btn btn-default" /><br/>
-                <span> Prix 
-                	<span>
-                		Entre 
-                	</span>
-                	<input type="number" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
-                	<span>
-                		et 
-                	</span>
-                	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
-                </span><br/>
-                 
-                 <span> Date 
-                	<span>
-                		Entre 
-                	</span>
 
-                	<input type="text" class="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
-                	<span>
-                		et 
-                	</span>
-                	<input class="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+            <form method="GET">
+             	<div class="form-group">
+             	<%
+	             //récupération des valeurs
+	               String prixMin = request.getParameter("prixMin");
+	               String prixMax = request.getParameter("prixMax");
+	               String dateMin = request.getParameter("dateMin");
+	               String dateMax = request.getParameter("dateMax");
+	               String searchTitle = request.getParameter("searchTitle");
+	               pageContext.setAttribute("searchTitle", searchTitle);
+	               pageContext.setAttribute("prixMin", prixMin);
+	               pageContext.setAttribute("prixMax", prixMax);
+	               pageContext.setAttribute("dateMin", dateMin);
+	               pageContext.setAttribute("dateMax", dateMax);
+	             %>
+	                <input type="text" class="form-control col-xs-2"  name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit"/><br/>
+	                <span> Prix 
+	                	<span>
+	                		Entre 
+	                	</span>
+	                	<input type="number" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
+	                	<span>
+	                		et 
+	                	</span>
+	                	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
+	                </span><br/>
+	                 
+	                 <span> Date 
+	                	<span>
+	                		Entre 
+	                	</span>
+	
+	                	<input type="text" class="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
+	                	<span>
+	                		et 
+	                	</span>
+	                	<input class="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+	                </span>
+	               
+	        	</div>
 
-                </span>
- 
-                
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
             <table id="example" class="table table-striped">
@@ -105,7 +109,7 @@
                 	query = query.filter("price >=", Double.parseDouble(prixMin)).filter("price <=", Double.parseDouble(prixMax));
                 }
                 
-                List<Advertisement> advertisements = query.list();
+                List<Advertisement> advertisements = query.order("date").limit(50).list();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 //filtre sur la date
                 if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
@@ -155,8 +159,6 @@
                 </tr>
                     </tbody>
 
-
-
                     <%
                 }
             %>
@@ -176,9 +178,14 @@
 
             function myFunction(idlement) {
                 console.log(idlement);
-                $.get("delete", { id:idlement }, function(data, status){
-                    alert("Data: " + data + "\nStatus: " + status);
-                });
+                $.ajax({
+                    url: "delete" + '?' + $.param({"ide": idlement}),
+                    type:"DELETE",
+                    success: function(response){
+                        alert("Reponse: " + response);
+                    }
+                })
+
             }
 
 
