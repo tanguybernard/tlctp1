@@ -129,12 +129,26 @@
             </table>
         </div>
 
-        <script>
+
+        <script type="text/javascript">
             $(function() {
-                $( "#datepicker" ).datepicker();
+                $( "#datepicker" ).datepicker({
+                    altField: "#datepicker",
+                    firstDay: 1 ,
+                    dateFormat: 'dd/mm/yy'
+                });
             });
+
+
+        </script>
+        <script>
+
             $(function() {
-                $( "#datepicker2" ).datepicker();
+                $( "#datepicker2" ).datepicker({
+                    altField: "#datepicker2",
+                    firstDay: 1 ,
+                    dateFormat: 'dd/mm/yy'
+                });
             });
         </script>
 
