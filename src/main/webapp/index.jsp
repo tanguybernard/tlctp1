@@ -66,7 +66,7 @@
                 	<span>
                 		et 
                 	</span>
-                	<input id="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
+                	<input id="datepicker2" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
 
                 </span>
  
@@ -144,6 +144,9 @@
         <script>
             $(function() {
                 $( "#datepicker" ).datepicker();
+            });
+            $(function() {
+                $( "#datepicker2" ).datepicker();
             });
         </script>
 
