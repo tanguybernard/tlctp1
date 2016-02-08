@@ -15,6 +15,11 @@
 
     <servlet>
         <servlet-name>add</servlet-name>
+        <servlet-class>fr.istic.tlctp1.AddAdvertisementServlet</servlet-class>
+    </servlet>
+    
+      <servlet>
+        <servlet-name>delete</servlet-name>
         <servlet-class>fr.istic.tlctp1.DeleteAdvertisementServlet</servlet-class>
     </servlet>
 
