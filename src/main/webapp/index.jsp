@@ -16,9 +16,10 @@
 
         <title>Tableau de publicités</title>
 
-        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/main.css"">
 
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css">
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -45,7 +46,7 @@
 
 
             <form method="GET">
-             	<div class="form-group">
+
              	<%
 	             //récupération des valeurs
 	               String prixMin = request.getParameter("prixMin");
@@ -59,31 +60,41 @@
 	               pageContext.setAttribute("dateMin", dateMin);
 	               pageContext.setAttribute("dateMax", dateMax);
 	             %>
-	                <input type="text" class="form-control col-xs-2"  name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit"/><br/>
-	                <span> Prix 
-	                	<span>
-	                		Entre 
-	                	</span>
-	                	<input type="number" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
-	                	<span>
-	                		et 
-	                	</span>
-	                	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
-	                </span><br/>
-	                 
-	                 <span> Date 
-	                	<span>
-	                		Entre 
-	                	</span>
-	
-	                	<input type="text" class="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
-	                	<span>
-	                		et 
-	                	</span>
-	                	<input class="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
-	                </span>
-	               
-	        	</div>
+
+
+
+                        <div class="form-inline ">
+                            <div class="input-group" style="position: initial;">
+                                    <input type="text" style="position: initial;" class="form-control" placeholder="Search for..." id="search" name="searchTitle" value="${fn:escapeXml(searchTitle)}">
+                          <span class="input-group-btn" >
+                            <button class="btn btn-secondary" style="position: initial;" type="button">Go!</button>
+                          </span>
+                                </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <label for="prixMin">Prix entre </label>
+                            <input type="number" class="form-control" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}">
+
+                            <label for="prixMax">et</label>
+                            <input type="number" class="form-control" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}">
+                        </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="dateMin">Date entre</label>
+                            <input type="text" class="form-control datepicker" id="dateMin" name="dateMin" value="${fn:escapeXml(dateMin)}">
+
+                            <label for="dateMax">et</label>
+                            <input type="text" class="form-control datepicker" id="dateMax" name="dateMax" value="${fn:escapeXml(dateMax)}">
+                        </div>
+                        <div class="form-inline">
+                            <button class="btn btn-default" type="submit">Submit</button>
+                        </div>
+                    </div>
+        </div>
+
+
 
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
