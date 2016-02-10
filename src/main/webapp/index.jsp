@@ -17,16 +17,16 @@
         <title>Tableau de publicités</title>
 
         <link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
-
-
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="https://jqueryui.com/resources/demos/datepicker/datepicker-fr.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     </head>
 
@@ -87,15 +87,15 @@
 
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
-            <table id="example" class="table table-striped">
+            <table id="myTable" class="table">
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Prix</th>
+                    <th class="" >Date</th>
+                    <th class="">Name</th>
+                    <th class="">Prix</th>
                 </tr>
                 </thead>
-                <tbody class="searchable">
+                <tbody >
                 <tr>
             <%
                 Query<Advertisement> query =  ObjectifyService.ofy().load().type(Advertisement.class);
@@ -109,7 +109,7 @@
                 	query = query.filter("price >=", Double.parseDouble(prixMin)).filter("price <=", Double.parseDouble(prixMax));
                 }
                 
-                List<Advertisement> advertisements = query.order("date").limit(50).list();
+                List<Advertisement> advertisements = query.limit(50).list();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 //filtre sur la date
                 if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
@@ -189,9 +189,6 @@
                 })
 
             }
-
-
-
 
         </script>
 
