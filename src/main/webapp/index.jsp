@@ -14,7 +14,7 @@
 <html>
     <head>
 
-        <title>Tableau de publicités</title>
+        <title>Dashboard of advertisements</title>
 
         <link rel="stylesheet" href="/stylesheets/main.css"">
 
