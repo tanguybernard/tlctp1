@@ -40,11 +40,7 @@
         </h1>
 
     </div>
-
-
         <div>
-
-
             <form method="GET">
 
              	<%
@@ -60,14 +56,11 @@
 	               pageContext.setAttribute("dateMin", dateMin);
 	               pageContext.setAttribute("dateMax", dateMax);
 	             %>
-
-
-
                         <div class="form-inline ">
                             <div class="input-group" style="position: initial;">
                                     <input type="text" style="position: initial;" class="form-control" placeholder="Search for..." id="search" name="searchTitle" value="${fn:escapeXml(searchTitle)}">
                           <span class="input-group-btn" >
-                            <button class="btn btn-secondary" style="position: initial;" type="button">Go!</button>
+                            	<input type="submit" class="btn btn-secondary" style="position: initial;"/>
                           </span>
                                 </div>
                         </div>
@@ -87,9 +80,6 @@
 
                             <label for="dateMax">et</label>
                             <input type="text" class="form-control datepicker" id="dateMax" name="dateMax" value="${fn:escapeXml(dateMax)}">
-                        </div>
-                        <div class="form-inline">
-                            <button class="btn btn-default" type="submit">Submit</button>
                         </div>
                     </div>
         </div>
