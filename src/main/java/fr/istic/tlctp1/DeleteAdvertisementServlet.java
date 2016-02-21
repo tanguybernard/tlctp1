@@ -15,6 +15,8 @@ public class DeleteAdvertisementServlet extends HttpServlet {
 
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ObjectifyService.ofy().delete().type(Advertisement.class).id(Long.parseLong(req.getParameter("ide"))); 
+
+		ObjectifyService.ofy().delete().type(Advertisement.class).id(Long.parseLong(req.getParameter("ide")));
+        resp.sendRedirect("/index.jsp");
 	}
 }

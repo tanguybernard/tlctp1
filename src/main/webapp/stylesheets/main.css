@@ -6,3 +6,7 @@ form{
 	margin : 20px;	
 	text-align:center;
 }
+
+.form-inline{
+	margin: 3px;
+}

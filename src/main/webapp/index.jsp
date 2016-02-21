@@ -16,17 +16,18 @@
 
         <title>Tableau de publicités</title>
 
-        <link type="text/css" rel="stylesheet" href="/stylesheets/main.css">
+        <link rel="stylesheet" href="/stylesheets/main.css"">
 
-
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+        <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="https://jqueryui.com/resources/demos/datepicker/datepicker-fr.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
     </head>
 
@@ -45,7 +46,7 @@
 
 
             <form method="GET">
-             	<div class="form-group">
+
              	<%
 	             //récupération des valeurs
 	               String prixMin = request.getParameter("prixMin");
@@ -59,43 +60,53 @@
 	               pageContext.setAttribute("dateMin", dateMin);
 	               pageContext.setAttribute("dateMax", dateMax);
 	             %>
-	                <input type="text" class="form-control col-xs-2"  name="searchTitle" value="${fn:escapeXml(searchTitle)}"/> <input type="submit"/><br/>
-	                <span> Prix 
-	                	<span>
-	                		Entre 
-	                	</span>
-	                	<input type="number" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}"/>
-	                	<span>
-	                		et 
-	                	</span>
-	                	<input type="number" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}"/>
-	                </span><br/>
-	                 
-	                 <span> Date 
-	                	<span>
-	                		Entre 
-	                	</span>
-	
-	                	<input type="text" class="datepicker" name="dateMin" value="${fn:escapeXml(dateMin)}"/>
-	                	<span>
-	                		et 
-	                	</span>
-	                	<input class="datepicker" type="text" name="dateMax" value="${fn:escapeXml(dateMax)}"/>
-	                </span>
-	               
-	        	</div>
+
+
+
+                        <div class="form-inline ">
+                            <div class="input-group" style="position: initial;">
+                                    <input type="text" style="position: initial;" class="form-control" placeholder="Search for..." id="search" name="searchTitle" value="${fn:escapeXml(searchTitle)}">
+                          <span class="input-group-btn" >
+                            <button class="btn btn-secondary" style="position: initial;" type="button">Go!</button>
+                          </span>
+                                </div>
+                        </div>
+
+                        <div class="form-inline">
+                            <label for="prixMin">Prix entre </label>
+                            <input type="number" class="form-control" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}">
+
+                            <label for="prixMax">et</label>
+                            <input type="number" class="form-control" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}">
+                        </div>
+
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="dateMin">Date entre</label>
+                            <input type="text" class="form-control datepicker" id="dateMin" name="dateMin" value="${fn:escapeXml(dateMin)}">
+
+                            <label for="dateMax">et</label>
+                            <input type="text" class="form-control datepicker" id="dateMax" name="dateMax" value="${fn:escapeXml(dateMax)}">
+                        </div>
+                        <div class="form-inline">
+                            <button class="btn btn-default" type="submit">Submit</button>
+                        </div>
+                    </div>
+        </div>
+
+
 
             </form>
             <a href="/advertisement.jsp">Ajout d'une publicité</a>
-            <table id="example" class="table table-striped">
+            <table id="myTable" class="table">
                 <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Name</th>
-                    <th>Prix</th>
+                    <th class="" >Date</th>
+                    <th class="">Name</th>
+                    <th class="">Prix</th>
                 </tr>
                 </thead>
-                <tbody class="searchable">
+                <tbody >
                 <tr>
             <%
                 Query<Advertisement> query =  ObjectifyService.ofy().load().type(Advertisement.class);
@@ -109,7 +120,7 @@
                 	query = query.filter("price >=", Double.parseDouble(prixMin)).filter("price <=", Double.parseDouble(prixMax));
                 }
                 
-                List<Advertisement> advertisements = query.order("date").limit(50).list();
+                List<Advertisement> advertisements = query.limit(50).list();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
                 //filtre sur la date
                 if(dateMin != null && !dateMin.equals("") && dateMax != null && !dateMax.equals("")){
@@ -153,8 +164,11 @@
                     <td >${fn:escapeXml(myDate)}</td>
                     <td >${fn:escapeXml(myTitle)}</td>
                     <td >${fn:escapeXml(myPrice)}</td>
-                    <td><a href="#" class="confirm-delete btn mini red-stripe" role="button" data-title="kitty" data-id="2">Delete</a></td>
-                    <td><button onclick="myFunction(${fn:escapeXml(myId)})">Click me</button><td>
+                    <td>
+                        <button type="button" class="btn btn-default" onclick="deleteAd(${fn:escapeXml(myId)})">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </button>
+                    <td>
 
                 </tr>
                     </tbody>
@@ -176,20 +190,16 @@
             });
 
 
-            function myFunction(idlement) {
-                console.log(idlement);
+            function deleteAd(idlement) {
                 $.ajax({
                     url: "delete" + '?' + $.param({"ide": idlement}),
                     type:"DELETE",
                     success: function(response){
-                        alert("Reponse: " + response);
+                        location.reload();
                     }
                 })
 
             }
-
-
-
 
         </script>
 
