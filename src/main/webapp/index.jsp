@@ -36,7 +36,7 @@
     <div class = "page-header">
 
         <h1 align="center">
-            Tableau de publicités
+            Dashboard of advertisements
         </h1>
 
     </div>
