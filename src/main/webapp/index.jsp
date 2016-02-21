@@ -60,25 +60,25 @@
                             <div class="input-group" style="position: initial;">
                                     <input type="text" style="position: initial;" class="form-control" placeholder="Search for..." id="search" name="searchTitle" value="${fn:escapeXml(searchTitle)}">
                           <span class="input-group-btn" >
-                            	<input type="submit" class="btn btn-secondary" style="position: initial;"/>
+                            	<input type="submit" value="Send" class="btn btn-secondary" style="position: initial;"/>
                           </span>
                                 </div>
                         </div>
 
                         <div class="form-inline">
-                            <label for="prixMin">Prix entre </label>
+                            <label for="prixMin">Price between</label>
                             <input type="number" class="form-control" id="prixMin" name="prixMin" value="${fn:escapeXml(prixMin)}">
 
-                            <label for="prixMax">et</label>
+                            <label for="prixMax">and</label>
                             <input type="number" class="form-control" id="prixMax" name="prixMax" value="${fn:escapeXml(prixMax)}">
                         </div>
 
                     <div class="form-inline">
                         <div class="form-group">
-                            <label for="dateMin">Date entre</label>
+                            <label for="dateMin">Date between</label>
                             <input type="text" class="form-control datepicker" id="dateMin" name="dateMin" value="${fn:escapeXml(dateMin)}">
 
-                            <label for="dateMax">et</label>
+                            <label for="dateMax">and</label>
                             <input type="text" class="form-control datepicker" id="dateMax" name="dateMax" value="${fn:escapeXml(dateMax)}">
                         </div>
                     </div>
@@ -87,13 +87,13 @@
 
 
             </form>
-            <a href="/advertisement.jsp">Ajout d'une publicité</a>
+            <a href="/advertisement.jsp">Add an advertisement !</a>
             <table id="myTable" class="table">
                 <thead>
                 <tr>
                     <th class="" >Date</th>
                     <th class="">Name</th>
-                    <th class="">Prix</th>
+                    <th class="">Price</th>
                 </tr>
                 </thead>
                 <tbody >
